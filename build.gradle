@@ -1,0 +1,54 @@
+apply plugin: 'java-library'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+apply plugin: 'java'
+
+
+repositories {
+    jcenter()
+}
+allprojects {
+    repositories {
+
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+buildscript {
+    repositories {
+
+        jcenter()
+    }
+    dependencies {
+        classpath('net.serenity-bdd:serenity-gradle-plugin:2.3.12')
+    }
+}
+dependencies {
+    implementation group: 'net.serenity-bdd', name: 'serenity-core', version: '3.3.0'
+    implementation group: 'net.serenity-bdd', name: 'serenity-screenplay', version: '3.3.0'
+    implementation group: 'net.serenity-bdd', name: 'serenity-screenplay-rest', version: '3.3.0'
+    implementation group: 'net.serenity-bdd', name: 'serenity-screenplay-webdriver', version: '3.3.0'
+    implementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: '3.3.0'
+    implementation 'junit:junit:4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+
+
+
+}
+
+compileJava.options.encoding = 'UTF-8'
+gradle.startParameter.continueOnFailure = true
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+/*test {
+ignoreFailures = true
+systemProperty "cucumber.options", System.getProperty("cucumber.options")
+systemProperty "ambiente", System.getProperty("ambiente")
+
+}*/
+test.finalizedBy(aggregate)
+
+
